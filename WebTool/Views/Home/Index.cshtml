@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div id="app">
+    <br />
+    <br />
+    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+
+        <el-row>
+            <el-col :span="6">
+                <el-form-item label="账号:">
+                    <el-select v-model="ruleForm.account" placeholder="请选择">
+                        <el-option v-for="ite in list" :label='ite' :value="ite"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-col>
+
+        </el-row>
+
+        <el-row>
+            <el-col :span="6">
+                <el-form-item label="密钥:" prop="sec">
+                    <el-input type="password" v-model="ruleForm.secret"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
+
+
+        <el-form-item>
+            <el-row>
+                <el-col :span="3"><el-button v-on:click="submitForm('ruleForm')">提交</el-button></el-col>
+                <el-col :span="3"><el-button v-on:click="resetForm('ruleForm')">重置</el-button></el-col>
+            </el-row>
+        </el-form-item>
+    </el-form>
+</div>
+
+
+
+@section scripts{
+    
+    <script>
+        var vue = new Vue({
+            el: "#app",
+            data: {
+                list:['QQ','Alibaba','Tencent'],
+                ruleForm: {
+                    account: '',
+                    secret: '',
+                },
+                rules: {
+                    acc: [
+                        { required: true, message: '账号不能为空' },
+                    ],
+                    sec: [
+                        { required: true, message: '密钥不能为空' },
+                    ]
+                }
+            },
+            methods: {
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            alert('submit!');
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                },
+                GetListAcc() {
+                    let vm = this;
+                    $.post("", "", function (res) {
+                        if (res.code==0) {
+                            //绑定下拉列表
+
+                        }
+                        vm.$message({message: code.msg,type: 'warning'});
+                    },"JSON");
+
+                }
+            }
+
+        });
+    </script>
+    
+    
+    }
